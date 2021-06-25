@@ -13,22 +13,31 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         })
     }
-
+    document.getElementById('answer-box').addEventListener('keydown', function(event){
+        if (event.key === "Enter"){
+            checkAnswer();
+        }
+    })
     runGame("addition");
 
 })
 
 function runGame(gameType) {
     //Generate a random number between 1 and 25 
+    document.getElementById('answer-box').value = "";
+    document.getElementById('answer-box').focus();
+
     let num1 = Math.floor(Math.random() * 25) + 1;
     let num2 = Math.floor(Math.random() * 25) + 1;
 
-    if (gameType == 'addition'){
+    if (gameType === 'addition'){
         displayAdditionQuestion(num1, num2);
-    } else if (gameType == 'multiply'){
+    } else if (gameType === 'multiply'){
         displayMultiplyQuestion(num1, num2);
-    } else if (gameType == 'subtract'){
+    } else if (gameType === 'subtract'){
         displaySubtractQuestion(num1, num2);
+    } else if (gameType === 'division'){
+        displayDivideQuestion(num1, num2);
     } else {
         alert(`unknown game type ${gameType}`);
         throw `unknown game type ${gameType}`;
@@ -68,6 +77,8 @@ function calculateCorrectAnswer(){
         return [operand1 * operand2, "multiply"];
     } else if (operator === '-'){
         return [operand1 - operand2, "subtract"];
+    } else if (operator === '/'){
+        return [Math.round(operand1 / operand2), "division"];
     } else {
         alert(`unimplemented operator ${operator}`);
         throw `unimplemented operator ${operator}, aborting!`
@@ -103,4 +114,10 @@ function displaySubtractQuestion(operand1, operand2){
     document.getElementById('operand1').textContent = operand1 > operand2 ? operand1 : operand2;
     document.getElementById('operand2').textContent = operand1 > operand2 ? operand2 : operand1;;
     document.getElementById('operator').textContent = "-";
+}
+
+function displayDivideQuestion(operand1, operand2){
+    document.getElementById('operand1').textContent = operand1 > operand2 ? operand1 : operand2;
+    document.getElementById('operand2').textContent = operand1 > operand2 ? operand2 : operand1;;
+    document.getElementById('operator').textContent = "/";
 }
